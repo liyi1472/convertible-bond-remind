@@ -2,3 +2,4 @@
 tempCodeRunnerFile.py
 data.txt
 config.ini
+logs/*.log
