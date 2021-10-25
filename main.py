@@ -111,19 +111,25 @@ def sendmail(mailContents):
         try:
             smtp.login(sender, password)
             smtp.sendmail(sender, receiver, message.as_string())
-            print('[' + str(datetime.datetime.now())[0:19] + '] [OK] 向"' + receiver + '"发送邮件成功')
+            log('[' + str(datetime.datetime.now())[0:19] + '] [OK] 向"' + receiver + '"发送邮件成功')
         except smtplib.SMTPException:
-            print('[' + str(datetime.datetime.now())[0:19] + '] [Error] 向"' + receiver + '"发送邮件失败')
+            log('[' + str(datetime.datetime.now())[0:19] + '] [Error] 向"' + receiver + '"发送邮件失败')
         finally:
             smtp.quit()
     else:
         # 邮件内容为空
-        print('[' + str(datetime.datetime.now())[0:19] + '] [CANCEL] 取消向"' + receiver + '"发送邮件')
+        log('[' + str(datetime.datetime.now())[0:19] + '] [CANCEL] 取消向"' + receiver + '"发送邮件')
+
+# 写入日志
+def log(log):
+    currentMonth = str(datetime.date.today())[0:7] + '-log'
+    logFile = open('logs/' + currentMonth + '.txt', 'a')
+    logFile.write(log + "\n")
 
 # 测试函数
 def test():
     pass
+test()
 
 # 主函数入口
-# test()
 main()
