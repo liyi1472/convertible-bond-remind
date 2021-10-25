@@ -122,13 +122,14 @@ def sendmail(mailContents):
 
 # 写入日志
 def log(log):
-    logFile = open('logs/' + str(datetime.date.today()) + '.log', 'a')
+    currentMonth = str(datetime.date.today())[0:7] + '-log'
+    logFile = open('logs/' + currentMonth + '.txt', 'a')
     logFile.write(log + "\n")
 
 # 测试函数
 def test():
     pass
-# test()
+test()
 
 # 主函数入口
 main()
