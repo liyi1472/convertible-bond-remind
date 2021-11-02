@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.9
 # 定义工作目录
 WORKDIR /app
 # 换国内源
