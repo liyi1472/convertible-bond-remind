@@ -8,7 +8,7 @@ PORT=
 SENDER=
 ; 发件人邮箱密码或授权码
 PASSWD=
-; 收件人邮件地址
+; 收件人邮件地址 (多个收件人地址用,隔开)
 RECEIVER=
 ; 邮件主题前缀
 PREFIX=
