@@ -36,8 +36,8 @@ def main():
             pass
 
     # 保存数据
-    writeFile('data/db-buy.txt', fileContents['buy'])
-    writeFile('data/db-sell.txt', fileContents['sell'])
+    writeFile('data/buy-database.txt', fileContents['buy'])
+    writeFile('data/sell-database.txt', fileContents['sell'])
     # 发送邮件
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -167,7 +167,7 @@ def sendmail(config, mailContents, receiver):
             smtp.quit()
     else:
         # 邮件内容为空
-        log('[' + str(datetime.datetime.now())[0:19] + '] [CANCEL] 取消向发送邮件')
+        log('[' + str(datetime.datetime.now())[0:19] + '] [CANCEL] 取消向"' + receiver + '"发送邮件')
 
 # 写入日志
 def log(log):
