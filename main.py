@@ -39,7 +39,11 @@ def main():
     writeFile('data/db-buy.txt', fileContents['buy'])
     writeFile('data/db-sell.txt', fileContents['sell'])
     # 发送邮件
-    sendmail(mailContents)
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    receivers = config.get('SMTP', 'RECEIVER').split(',')
+    for receiver in receivers:
+        sendmail(config, mailContents, receiver)
 
 # 获取最新数据
 def fetchNew():
@@ -99,16 +103,13 @@ def writeFile(filename, fileContents):
     f.close()
 
 # 发送邮件提醒
-def sendmail(mailContents):
+def sendmail(config, mailContents, receiver):
     if mailContents['buy'] or mailContents['sell']:
         # 初始化配置
-        config = configparser.ConfigParser()
-        config.read('config.ini')
         smtpServer = config.get('SMTP', 'HOST')
         smtpPort = config.getint('SMTP', 'PORT')
         sender = config.get('SMTP', 'SENDER')
         password = config.get('SMTP', 'PASSWD')
-        receiver = config.get('SMTP', 'RECEIVER')
         prefix = config.get('SMTP', 'PREFIX')
         # 邮件内容
         mailMsg = '<style>'
@@ -129,7 +130,7 @@ def sendmail(mailContents):
         #  - 上市新债
         if mailContents['sell']:
             mailMsg += '<table><thead><tr><th>上市日期</th><th>债券简称及代码</th><th>信用评级</th></tr></thead><tbody>'
-            for converDebt in mailContents['buy']:
+            for converDebt in mailContents['sell']:
                 line = converDebt.split(',')
                 line[0] = line[0].replace('-', '年', 1)
                 line[0] = line[0].replace('-', '月') + '日'
@@ -143,9 +144,10 @@ def sendmail(mailContents):
         today = today.replace('-', '月') + '日'
         subject = prefix + today
         if mailContents['buy']:
-            subject += '打新提醒'
-            if converDebt:
-                subject += '&'
+            if mailContents['sell']:
+                subject += '打新&'
+            else:
+                subject += '打新提醒'
         if mailContents['sell']:
             subject += '上市提醒'
         message['Subject'] = Header(subject, 'utf-8')
