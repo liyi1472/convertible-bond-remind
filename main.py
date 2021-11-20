@@ -74,9 +74,11 @@ def fetchNewSell():
     today = str(datetime.date.today())
     for converDebt in fetchNew():
         if converDebt['LISTING_DATE'] is None:
+            # 跳过未确定上市日期的新债
             continue
         if converDebt['LISTING_DATE'][0:10] < today:
-            break
+            # 跳过已上市新债
+            continue
         record = converDebt['LISTING_DATE'][0:10] + ','
         record += converDebt['SECURITY_NAME_ABBR'] + ' ('
         record += converDebt['SECURITY_CODE'] + '),'
