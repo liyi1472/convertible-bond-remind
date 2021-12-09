@@ -3,7 +3,7 @@
 部署到自有服务器配合CRON定时任务使用。
 
 ```shell
-00 08 * * * /opt/tomato/python/convertible-bond-remind/run.sh >/dev/null 2>&1
+25 09 * * * /opt/tomato/python/convertible-bond-remind/run.sh >/dev/null 2>&1
 ```
 
 
